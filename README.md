@@ -38,23 +38,41 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 
 .
 ├── Apriori.java
+
 ├── apriori.py
+
 ├── convert.py
+
 ├── eclat.py
+
 ├── README.md
+
 ├── Datasets/
+
 │   ├── chess.dat.gz
+
 │   ├── chess_horizontal.dat
+
 │   ├── chess_vertical.dat
+
 │   ├── connect.dat.gz
+
 │   ├── connect_horizontal.dat
+
 │   ├── connect_vertical.dat
+
 │   ├── mushroom.dat.gz
+
 │   ├── mushroom_horizontal.dat
+
 │   ├── mushroom_vertical.dat
+
 │   ├── retail.dat.gz
+
 │   ├── retail_horizontal.dat
+
 │   └── retail_vertical.dat
+
 └── Results/
     ├── chess_eclat_output.txt
     ├── connect_eclat_output.txt
