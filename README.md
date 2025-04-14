@@ -74,9 +74,6 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 │   └── retail_vertical.dat
 
 └── Results/
-    ├── chess_eclat_output.txt
-    ├── connect_eclat_output.txt
-    ├── mushroom_eclat_output.txt
-    └── retail_eclat_output.txt
+   
 
 3 directories, 17 files
