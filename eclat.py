@@ -3,15 +3,14 @@ import os
 import time
 import tracemalloc
 from collections import defaultdict
-from itertools import combinations
 
 class Eclat:
-    def __init__(self, minsup):
-        self.minsup = minsup #minimum support threshold
-        self.vertical_db = {} #vertical TID-lists: item -> set of transaction IDs
-        self.frequent_itemsets = [] #stores frequent itemsets and their support count
-        self.confident_rules = [] #list of association rules (A → B)
-        self.stats = {} #stores performance metrics (runtime, memory)
+    def __init__(self):
+        self.minsup = 0 #frequency × transactions
+        self.vertical_db = {} #Item → set of TIDs (vertical format)
+        self.frequent_itemsets = [] #list of freqItemsets
+        self.stats = {} #timing and memory info
+        self.command_str = "" #command to run 
 
     # Load data in vertical format
     def load_vertical_data(self, filepath):
@@ -22,21 +21,11 @@ class Eclat:
             for line in f:
                 if ':' in line:
                     item, tids = line.strip().split(':', 1)
-                    tid_list = tids.strip().strip(',').split(',')  # Remove trailing comma and split
+                    tid_list = tids.strip().strip(',').split(',')
                     tid_lists[item.strip()] = set(tid_list)
 
         self.stats["load_time"] = time.time() - start_time
         return dict(tid_lists)
-
-
-    # Compute support for an itemset by intersecting their TID-lists
-    def compute_support(self, items):
-        if not items:
-            return 0, set()
-        tids = self.vertical_db[items[0]]
-        for item in items[1:]:
-            tids = tids & self.vertical_db[item] #set intersection of TID-lists via HashSet
-        return len(tids), tids
 
     # Bottom-up traversal using prefix extension and tid-list intersections
     def bottom_up_eclat(self, prefix, items):
@@ -46,6 +35,7 @@ class Eclat:
             if support >= self.minsup:
                 new_prefix = prefix + [item]
                 self.frequent_itemsets.append((new_prefix, support)) #record as a frequent itemset
+
                 new_items = []
                 for other_item, other_tidlist in items:
                     intersected = tidlist & other_tidlist #candidate intersection
@@ -54,42 +44,22 @@ class Eclat:
 
                 self.bottom_up_eclat(new_prefix, new_items) #recurse on new conditional class
 
-    def run(self, filepath):
-        tracemalloc.start() #start memory tracking
+    def run(self, filepath, minsup_fraction):
+        tracemalloc.start()
         self.vertical_db = self.load_vertical_data(filepath) #load dataset
- 
-        #filter 1-itemsets by minsup
+
+        total_txns = self.estimate_num_transactions()
+        self.minsup = int(minsup_fraction * total_txns)
+
+         #filter 1-itemsets by minsup
         items = [(item, tids) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
-        items.sort()  #sort for prefix order
+        items.sort()
 
         start_time = time.time()
         self.bottom_up_eclat([], items) #run bottom up Eclat algorithm
-        self.stats["mining_time"] = time.time() - start_time  #track mining runtime
+        self.stats["mining_time"] = time.time() - start_time #track mining runtime
         self.stats["peak_memory_MB"] = round(tracemalloc.get_traced_memory()[1] / (1024 * 1024), 2)
         tracemalloc.stop()
-
-     # Generate confident association rules from frequent itemsets
-    def generate_association_rules(self, minconf=0.6):
-        start_time = time.time()
-        itemset_dict = {
-            " ".join(sorted(itemset)): support
-            for itemset, support in self.frequent_itemsets
-        }
-
-        for itemset, support in self.frequent_itemsets:
-            if len(itemset) < 2:
-                continue  #no rule possible for 1-itemsets
-            for i in range(1, len(itemset)):
-                for A in combinations(itemset, i):
-                    B = set(itemset) - set(A)
-                    A_str = " ".join(sorted(A))
-                    A_support = itemset_dict.get(A_str, 0)
-                    if A_support > 0:
-                        conf = support / A_support
-                        if conf >= minconf:
-                            self.confident_rules.append((list(A), list(B), conf))  #add rule A → B
-
-        self.stats["rule_gen_time"] = time.time() - start_time #track rule generation time
 
     def print_results(self, input_path):
         dataset_name = os.path.splitext(os.path.basename(input_path))[0]
@@ -97,17 +67,14 @@ class Eclat:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w") as f:
+            f.write(f"== Command ==\n{self.command_str}\n\n")
             f.write("== Frequent Itemsets ==\n")
             for itemset, support in self.frequent_itemsets:
                 f.write(f"{' '.join(itemset)} ({support})\n")
 
-            f.write("\n== Confident Association Rules ==\n")
-            for A, B, conf in self.confident_rules:
-                f.write(f"{' '.join(A)} => {' '.join(B)} (conf: {conf:.2f})\n")
-
             f.write("\n== Execution Statistics ==\n")
             f.write(f"Transactions: {self.estimate_num_transactions()}\n")
-            f.write(f"Min Support: {self.minsup}\n")
+            f.write(f"Minimum Frequency: {self.minsup} (minsup fraction applied)\n")
             for k, v in self.stats.items():
                 label = k.replace("_", " ").title()
                 f.write(f"{label}: {v:.4f} seconds\n" if 'time' in k else f"{label}: {v} MB\n")
@@ -121,18 +88,15 @@ class Eclat:
             all_tids.update(tids)
         return len(all_tids)
 
-
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: python eclat.py <vertical_data_file> <minsup> [<minconf>]")
+        print("Usage: python eclat.py <vertical_data_file> <minsup_fraction>")
         sys.exit(1)
 
     filepath = sys.argv[1]
-    minsup = int(sys.argv[2])
-    minconf = float(sys.argv[3]) if len(sys.argv) > 3 else 0.6
+    minsup_fraction = float(sys.argv[2])  
 
-    eclat = Eclat(minsup)
-    eclat.run(filepath)
-    eclat.generate_association_rules(minconf)
+    eclat = Eclat()
+    eclat.command_str = f"python {' '.join(sys.argv)}"  #store command line 
+    eclat.run(filepath, minsup_fraction)
     eclat.print_results(filepath)
-

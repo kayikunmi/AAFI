@@ -1,0 +1,12 @@
+== Command ==
+python eclat.py Datasets/retail_vertical.dat 0.5
+
+== Frequent Itemsets ==
+39 (50675)
+
+== Execution Statistics ==
+Transactions: 88162
+Minimum Frequency: 44081 (minsup fraction applied)
+Load Time: 0.8519 seconds
+Mining Time: 0.0000 seconds
+Peak Memory Mb: 104.0 MB

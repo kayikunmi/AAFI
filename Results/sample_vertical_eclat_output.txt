@@ -1,0 +1,30 @@
+== Command ==
+python eclat.py Datasets/sample_vertical.dat 0.5
+
+== Frequent Itemsets ==
+H (3)
+H C (3)
+H C A (3)
+H A (3)
+G (3)
+G A (3)
+F (4)
+F B (3)
+F B A (3)
+F A (4)
+D (3)
+D B (3)
+D B A (3)
+D A (3)
+C (4)
+C A (4)
+B (4)
+B A (4)
+A (6)
+
+== Execution Statistics ==
+Transactions: 6
+Minimum Frequency: 3 (minsup fraction applied)
+Load Time: 0.0003 seconds
+Mining Time: 0.0001 seconds
+Peak Memory Mb: 0.02 MB
