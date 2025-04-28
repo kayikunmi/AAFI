@@ -44,12 +44,11 @@ class Eclat:
 
                 self.bottom_up_eclat(new_prefix, new_items) #recurse on new conditional class
 
-    def run(self, filepath, minsup_fraction):
+    def run(self, filepath, minsup):
         tracemalloc.start()
-        self.vertical_db = self.load_vertical_data(filepath) #load dataset
+        self.vertical_db = self.load_vertical_data(filepath)
 
-        total_txns = self.estimate_num_transactions()
-        self.minsup = int(minsup_fraction * total_txns)
+        self.minsup = minsup
 
          #filter 1-itemsets by minsup
         items = [(item, tids) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
@@ -63,7 +62,7 @@ class Eclat:
 
     def print_results(self, input_path):
         dataset_name = os.path.splitext(os.path.basename(input_path))[0]
-        output_path = f"Results/{dataset_name}_eclat_output.txt"
+        output_path = f"Results/{dataset_name}_eclat_{self.minsup}_output.txt"
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w") as f:
@@ -74,7 +73,7 @@ class Eclat:
 
             f.write("\n== Execution Statistics ==\n")
             f.write(f"Transactions: {self.estimate_num_transactions()}\n")
-            f.write(f"Minimum Frequency: {self.minsup} (minsup fraction applied)\n")
+            f.write(f"Minimum Frequency: {self.minsup} \n")
             for k, v in self.stats.items():
                 label = k.replace("_", " ").title()
                 f.write(f"{label}: {v:.4f} seconds\n" if 'time' in k else f"{label}: {v} MB\n")
@@ -90,13 +89,13 @@ class Eclat:
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: python eclat.py <vertical_data_file> <minsup_fraction>")
+        print("Usage: python eclat.py <vertical_data_file> <minsup>")
         sys.exit(1)
 
     filepath = sys.argv[1]
-    minsup_fraction = float(sys.argv[2])  
+    minsup = int(sys.argv[2])        
 
     eclat = Eclat()
     eclat.command_str = f"python {' '.join(sys.argv)}"  #store command line 
-    eclat.run(filepath, minsup_fraction)
+    eclat.run(filepath, minsup)
     eclat.print_results(filepath)

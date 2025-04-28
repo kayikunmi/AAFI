@@ -91,7 +91,7 @@ class dEclat:
 
     def print_results(self, input_path):
         dataset_name = os.path.splitext(os.path.basename(input_path))[0]
-        output_path = f"Results/{dataset_name}_declat_output.txt"
+        output_path = f"Results/{dataset_name}_declat_{self.minsup}_output.txt"
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w") as f:
