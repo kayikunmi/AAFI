@@ -67,6 +67,7 @@ class Eclat:
 
         with open(output_path, "w") as f:
             f.write(f"== Command ==\n{self.command_str}\n\n")
+            
             f.write("== Frequent Itemsets ==\n")
             for itemset, support in self.frequent_itemsets:
                 f.write(f"{' '.join(itemset)} ({support})\n")

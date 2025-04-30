@@ -3,15 +3,14 @@ import os
 import time
 import tracemalloc
 from collections import defaultdict
-from itertools import combinations
 
 class dEclat:
     def __init__(self, minsup):
         self.minsup = minsup #minimum support threshold
         self.vertical_db = {} #vertical TID-lists: item -> set of transaction IDs
         self.frequent_itemsets = [] #stores frequent itemsets and their support count
-        self.confident_rules = [] #list of association rules (A → B)
         self.stats = {} #stores performance metrics (runtime, memory)
+        self.command_str = "" #command to run
 
     # Load data in vertical format
     def load_vertical_data(self, filepath):
@@ -27,19 +26,9 @@ class dEclat:
 
         self.stats["load_time"] = time.time() - start_time
         return dict(tid_lists)
-
-
-    # Compute support for an itemset by intersecting their TID-lists
-    def compute_support(self, items):
-        if not items:
-            return 0, set()
-        tids = self.vertical_db[items[0]]
-        for item in items[1:]:
-            tids = tids & self.vertical_db[item] #set intersection of TID-lists via HashSet
-        return len(tids), tids
-
-    # Bottom-up traversal using prefix extension and tid-list intersections
-    def bottom_up_eclat(self, prefix, items):
+    
+    # Bottom-up traversal using prefix extension and diffsets
+    def bottom_up_declat(self, prefix, items):
         while items:
             item, support, diffset = items.pop()
             if support >= self.minsup:
@@ -48,13 +37,12 @@ class dEclat:
                 new_items = []
                 for other_item, _ , other_diffset in items:
                     # get the difference between the diffsets for the prefix and the item
-                    difference = set(other_diffset) - set(diffset)
+                    difference = other_diffset - diffset
                     # support is difference between prefix's support and the diffset length
                     new_support = support - len(difference)
                     if new_support >= self.minsup:
                         new_items.append((other_item, new_support, difference))
-
-                self.bottom_up_eclat(new_prefix, new_items) #recurse on new conditional class
+                self.bottom_up_declat(new_prefix, new_items) #recurse on new conditional class
 
     # Count number of unique transactions (for scalability reporting)
     def estimate_num_transactions(self):
@@ -74,10 +62,10 @@ class dEclat:
             # each entry in the items list is (item, support, diffset)
             # support is length of the tidlist
             # diffset is set difference between all tids and the item's tidlist (total tids - item tidlist)
-        items = [(item, len(tids), (all_tids - set(tids))) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
+        items = [(item, len(tids), (all_tids - tids)) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
 
         start_time = time.time()
-        self.bottom_up_eclat([], items) #run bottom up Eclat algorithm
+        self.bottom_up_declat([], items) #run bottom up Eclat algorithm
         self.stats["mining_time"] = time.time() - start_time  #track mining runtime
         self.stats["peak_memory_MB"] = round(tracemalloc.get_traced_memory()[1] / (1024 * 1024), 2)
         tracemalloc.stop()
@@ -88,6 +76,8 @@ class dEclat:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w") as f:
+            f.write(f"== Command ==\n{self.command_str}\n\n")
+
             f.write("== Frequent Itemsets ==\n")
             for itemset, support in self.frequent_itemsets:
                 f.write(f"{' '.join(itemset)} ({support})\n")
@@ -111,5 +101,6 @@ if __name__ == "__main__":
     minsup = int(sys.argv[2])
 
     declat = dEclat(minsup)
+    declat.command_str = f"python {' '.join(sys.argv)}"  #store command line
     declat.run(filepath)
     declat.print_results(filepath)
