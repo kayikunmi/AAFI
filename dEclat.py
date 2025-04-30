@@ -48,7 +48,7 @@ class dEclat:
                 new_items = []
                 for other_item, _ , other_diffset in items:
                     # get the difference between the diffsets for the prefix and the item
-                    difference = set(diffset) - set(other_diffset) # candidate difference between the diffsets
+                    difference = set(other_diffset) - set(diffset)
                     # support is difference between prefix's support and the diffset length
                     new_support = support - len(difference)
                     if new_support >= self.minsup:
@@ -67,21 +67,14 @@ class dEclat:
         tracemalloc.start() #start memory tracking
         self.vertical_db = self.load_vertical_data(filepath) #load dataset
  
-        #filter 1-itemsets by minsup
-        items = [(item, tids) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
-        items.sort()  #sort for prefix order
+        # full possible tidlist (numbers 1 to # of horizontal db entries)
+        all_tids = set(map(str, range(1,self.estimate_num_transactions()+1)))
 
-        # intersect the full tidlist with the tidlist for each 1-itemset to get the diffsets for them
-        # each entry in the items list is now (item, diffset, support)
-
-        # make the full tidlist (numbers 0 to # of horizontal db entries-1)
-        all_tids = set(range(0,self.estimate_num_transactions()))
-        
-        # for each 1-itemset, get it and its tidlist
-            # length of the tidlist is the support
-            # diffset is set difference between all tids and the item's tidlist (total tids - item tidlist)
         # filter 1-itemsets by min sup
-        items = [(item, len(tids), (set(tids)-all_tids)) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
+            # each entry in the items list is (item, support, diffset)
+            # support is length of the tidlist
+            # diffset is set difference between all tids and the item's tidlist (total tids - item tidlist)
+        items = [(item, len(tids), (all_tids - set(tids))) for item, tids in self.vertical_db.items() if len(tids) >= self.minsup]
 
         start_time = time.time()
         self.bottom_up_eclat([], items) #run bottom up Eclat algorithm
