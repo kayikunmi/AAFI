@@ -18,7 +18,13 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 * File: `apriori.py` (Python) or `Apriori.java` (Java)
 * Requires horizontal format files (`_horizontal.dat`)
 * Uses candidate generation and pruning to find frequent itemsets
+* Logs performance:* Load time
+  * Mining time
+  * Rule generation time
+  * Peak memory (via `tracemalloc`)
+  * Total transactions processed
 * Usage: python apriori.py Datasets/`<dataset>`_horizontal.dat `<support>`
+* Results saved to: `Results/<dataset>_apriori_<minsup>_output.txt`
 
 **ECLAT:**
 
@@ -47,6 +53,10 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
   * Total transactions processed
 * Usage: python dEclat.py Datasets/`<dataset>`_vertical.dat `<minsup>`
 * Results saved to: `Results/<dataset>_dEclat_<minsup>_output.txt`
+
+**Gitignore:**
+
+* Results/mushroom_horizontal_apriori_1500_output.txt
 
 *Folder Structure:*
 
@@ -89,6 +99,5 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 │   └── retail_vertical.dat
 
 └── Results/
-   
 
 3 directories, 18 files
