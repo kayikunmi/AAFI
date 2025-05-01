@@ -61,43 +61,49 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 *Folder Structure:*
 
 .
-
 ├── Apriori.java
-
 ├── apriori.py
-
 ├── convert.py
-
-├── eclat.py
-
-├── README.md
-
-├── Datasets/
-
-│   ├── chess.dat.gz
-
+├── Datasets
 │   ├── chess_horizontal.dat
-
 │   ├── chess_vertical.dat
-
-│   ├── connect.dat.gz
-
+│   ├── chess.dat.gz
 │   ├── connect_horizontal.dat
-
 │   ├── connect_vertical.dat
-
-│   ├── mushroom.dat.gz
-
+│   ├── connect.dat.gz
 │   ├── mushroom_horizontal.dat
-
 │   ├── mushroom_vertical.dat
-
-│   ├── retail.dat.gz
-
+│   ├── mushroom.dat.gz
 │   ├── retail_horizontal.dat
+│   ├── retail_vertical.dat
+│   ├── retail.dat.gz
+│   └── sample_vertical.dat
+├── dEclat.py
+├── eclat.py
+├── experiments.py
+├── README.md
+└── Results
+    ├── chess_horizontal_apriori_3000_output.txt
+    ├── chess_vertical_declat_1500_output.txt
+    ├── chess_vertical_declat_3000_output.txt
+    ├── chess_vertical_eclat_1500_output.txt
+    ├── chess_vertical_eclat_3000_output.txt
+    ├── mushroom_horizontal_apriori_1500_output.txt
+    ├── mushroom_horizontal_apriori_3000_output.txt
+    ├── mushroom_vertical_declat_1000_output.txt
+    ├── mushroom_vertical_declat_1500_output.txt
+    ├── mushroom_vertical_declat_3000_output.txt
+    ├── mushroom_vertical_eclat_1000_output.txt
+    ├── mushroom_vertical_eclat_1500_output.txt
+    ├── mushroom_vertical_eclat_3000_output.txt
+    ├── retail_horizontal_apriori_1000_output.txt
+    ├── retail_horizontal_apriori_1500_output.txt
+    ├── retail_horizontal_apriori_3000_output.txt
+    ├── retail_vertical_declat_1000_output.txt
+    ├── retail_vertical_declat_1500_output.txt
+    ├── retail_vertical_declat_3000_output.txt
+    ├── retail_vertical_eclat_1000_output.txt
+    ├── retail_vertical_eclat_1500_output.txt
+    └── retail_vertical_eclat_3000_output.txt
 
-│   └── retail_vertical.dat
-
-└── Results/
-
-3 directories, 18 files
+3 directories, 42 files
