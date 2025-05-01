@@ -1,0 +1,35 @@
+== Command ==
+python dEclat.py Datasets/retail_vertical.dat 3000
+
+== Frequent Itemsets ==
+89 (3837)
+65 (4472)
+48 (42135)
+48 41 (9018)
+48 41 39 (7366)
+48 39 (29142)
+48 39 38 (6102)
+48 39 32 (5402)
+48 38 (7944)
+48 32 (8034)
+41 (14945)
+41 39 (11414)
+41 39 38 (3051)
+41 38 (3897)
+41 32 (3196)
+39 (50675)
+39 38 (10345)
+39 32 (8455)
+38 (15596)
+38 170 (3031)
+32 (15167)
+237 (3032)
+225 (3257)
+170 (3099)
+
+== Execution Statistics ==
+Transactions: 88162
+Min Support: 3000
+Load Time: 0.6431 seconds
+Mining Time: 0.0919 seconds
+Peak Memory Mb: 145.53 MB

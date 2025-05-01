@@ -161,6 +161,6 @@ python eclat.py Datasets/chess_vertical.dat 3000
 == Execution Statistics ==
 Transactions: 3196
 Minimum Frequency: 3000 
-Load Time: 0.0843 seconds
-Mining Time: 0.0300 seconds
+Load Time: 0.0538 seconds
+Mining Time: 0.0177 seconds
 Peak Memory Mb: 13.85 MB

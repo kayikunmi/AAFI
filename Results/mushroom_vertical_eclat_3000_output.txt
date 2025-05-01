@@ -937,6 +937,6 @@ python eclat.py Datasets/mushroom_vertical.dat 3000
 == Execution Statistics ==
 Transactions: 8124
 Minimum Frequency: 3000 
-Load Time: 0.1322 seconds
-Mining Time: 0.5351 seconds
+Load Time: 0.0824 seconds
+Mining Time: 0.3237 seconds
 Peak Memory Mb: 31.41 MB

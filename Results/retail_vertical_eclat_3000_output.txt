@@ -30,6 +30,6 @@ python eclat.py Datasets/retail_vertical.dat 3000
 == Execution Statistics ==
 Transactions: 88162
 Minimum Frequency: 3000 
-Load Time: 0.8219 seconds
-Mining Time: 0.0214 seconds
+Load Time: 0.5341 seconds
+Mining Time: 0.0136 seconds
 Peak Memory Mb: 102.66 MB
