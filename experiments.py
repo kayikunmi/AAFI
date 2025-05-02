@@ -39,7 +39,12 @@ def parse_output_file(filepath):
         if "Transactions:" in line:
             stats["transactions"] = int(re.findall(r"\d+", line)[0])
         elif "Min Support:" in line:
-            stats["min_support"] = int(re.findall(r"\d+", line)[0])
+            found = re.findall(r"\d+", line)
+            if found:
+                stats["min_support"] = int(found[0])
+        #if it wasn't found in the file, fall back to filename (this is for eclat files)
+        if stats["min_support"] is None:
+            stats["min_support"] = stats["support_value"]
         elif "Mining Time:" in line:
             stats["mining_time"] = float(re.findall(r"[\d.]+", line)[0])
         elif "Peak Memory" in line:
