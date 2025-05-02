@@ -60,59 +60,42 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 
 We attempted to run the original `apriori.py` on the `chess_horizontal.dat` dataset with minimum supports of 1000 and 1500. However, due to the dataset's high density and the exponential candidate generation in Apriori, both runs failed to complete within a reasonable time frame (exceeding 8 hours on a MacBook Air M1 with 8GB RAM). This highlights a known limitation of the Apriori algorithm on dense datasets with low support thresholds.
 
-
 *Folder Structure:*
 
 .
 
-
 ├── apriori.py
-
 
 ├── Apriori.java
 
-
 ├── convert.py
-
 
 ├── eclat.py
 
-
 ├── dEclat.py
-
 
 ├── experiments.py
 
-
 ├── experiment_summary.csv
-
 
 ├── plots.py
 
-
 ├── README.md
-
 
 ├── Datasets/
 
-
 │   ├── *.dat.gz
-
 
 │   ├── *_horizontal.dat
 
-
 │   └── *_vertical.dat
-
 
 ├── Results/
 
-
 │   └── *_output.txt
 
+├── Plots/
 
-└── Plots/
-
-    └── *_.png
+ │ └── *_.png
 
 4 directories, 51 files
