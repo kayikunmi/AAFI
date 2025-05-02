@@ -113,6 +113,6 @@ We attempted to run the original `apriori.py` on the `chess_horizontal.dat` data
 
 └── Plots/
 
-    └── *.png
+    └── *_.png
 
 4 directories, 51 files
