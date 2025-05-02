@@ -64,82 +64,27 @@ We attempted to run the original `apriori.py` on the `chess_horizontal.dat` data
 *Folder Structure:*
 
 .
-├── Apriori.java
 
 
 ├── apriori.py
 
 
+├── Apriori.java
+
+
 ├── convert.py
-
-
-├── Datasets
-
-
-│   ├── chess_horizontal.dat
-
-
-│   ├── chess_vertical.dat
-
-
-│   ├── chess.dat.gz
-
-
-│   ├── connect_horizontal.dat
-
-
-│   ├── connect_vertical.dat
-
-
-│   ├── connect.dat.gz
-
-
-│   ├── mushroom_horizontal.dat
-
-
-│   ├── mushroom_vertical.dat
-
-
-│   ├── mushroom.dat.gz
-
-
-│   ├── retail_horizontal.dat
-
-
-│   ├── retail_vertical.dat
-
-
-│   ├── retail.dat.gz
-
-
-│   └── sample_vertical.dat
-
-
-├── dEclat.py
 
 
 ├── eclat.py
 
 
-├── experiment_summary.csv
+├── dEclat.py
 
 
 ├── experiments.py
 
 
-├── Plots
-
-
-│   ├── chess_mining_time.png
-
-
-│   ├── mushroom_mining_time.png
-
-
-│   ├── peak_memory_usage.png
-
-
-│   └── retail_mining_time.png
+├── experiment_summary.csv
 
 
 ├── plots.py
@@ -148,81 +93,27 @@ We attempted to run the original `apriori.py` on the `chess_horizontal.dat` data
 ├── README.md
 
 
-└── Results
+├── Datasets/
 
 
-    ├── chess_horizontal_apriori_3000_output.txt
+│   ├── *.dat.gz
 
 
-    ├── chess_vertical_declat_1000_output.txt
+│   ├── *_horizontal.dat
 
 
-    ├── chess_vertical_declat_1500_output.txt
+│   └── *_vertical.dat
 
 
-    ├── chess_vertical_declat_3000_output.txt
+├── Results/
 
 
-    ├── chess_vertical_eclat_1000_output.txt
+│   └── *_output.txt
 
 
-    ├── chess_vertical_eclat_1500_output.txt
+└── Plots/
 
+    └── *.png
 
-    ├── chess_vertical_eclat_3000_output.txt
-
-
-    ├── mushroom_horizontal_apriori_1000_output.txt
-
-
-    ├── mushroom_horizontal_apriori_1500_output.txt
-
-
-    ├── mushroom_horizontal_apriori_3000_output.txt
-
-
-    ├── mushroom_vertical_declat_1000_output.txt
-
-
-    ├── mushroom_vertical_declat_1500_output.txt
-
-
-    ├── mushroom_vertical_declat_3000_output.txt
-
-
-    ├── mushroom_vertical_eclat_1000_output.txt
-
-
-    ├── mushroom_vertical_eclat_1500_output.txt
-
-
-    ├── mushroom_vertical_eclat_3000_output.txt
-
-
-    ├── retail_horizontal_apriori_1000_output.txt
-
-
-    ├── retail_horizontal_apriori_1500_output.txt
-
-
-    ├── retail_horizontal_apriori_3000_output.txt
-
-
-    ├── retail_vertical_declat_1000_output.txt
-
-
-    ├── retail_vertical_declat_1500_output.txt
-
-
-    ├── retail_vertical_declat_3000_output.txt
-
-
-    ├── retail_vertical_eclat_1000_output.txt
-
-
-    ├── retail_vertical_eclat_1500_output.txt
-
-
-    └── retail_vertical_eclat_3000_output.txt
 
 4 directories, 51 files
