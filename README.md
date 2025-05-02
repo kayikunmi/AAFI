@@ -13,18 +13,23 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 
 *_horizontal.dat → Used for Apriori while _vertical.dat → Used for Eclat & dEclat.*
 
+We tested across three fixed minimum support thresholds: **3000, 1500, and 1000**
+
 **APRIORI:**
 
 * File: `apriori.py` (Python) or `Apriori.java` (Java)
 * Requires horizontal format files (`_horizontal.dat`)
 * Uses candidate generation and pruning to find frequent itemsets
 * Logs performance:* Load time
+
   * Mining time
   * Rule generation time
   * Peak memory (via `tracemalloc`)
   * Total transactions processed
 * Usage: python apriori.py Datasets/`<dataset>`_horizontal.dat `<support>`
 * Results saved to: `Results/<dataset>_apriori_<minsup>_output.txt`
+
+  ⚠️ Apriori struggled on `chess` for supports 1000 and 1500, taking over 8 hours and eventually being terminated. This highlights its inefficiency on dense datasets.
 
 **ECLAT:**
 
@@ -57,8 +62,23 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 **Gitignore:**
 
 * Results/mushroom_horizontal_apriori_1500_output.txt
+* Results/chess_vertical_declat_1000_output.txt
+* Results/chess_vertical_eclat_1000_output.txt
+* Results/mushroom_horizontal_apriori_1000_output.txt
 
-We attempted to run the original `apriori.py` on the `chess_horizontal.dat` dataset with minimum supports of 1000 and 1500. However, due to the dataset's high density and the exponential candidate generation in Apriori, both runs failed to complete within a reasonable time frame (exceeding 8 hours on a MacBook Air M1 with 8GB RAM). This highlights a known limitation of the Apriori algorithm on dense datasets with low support thresholds.
+**Experimental Results:**
+
+* To extract and summarize results: `Python experiments.py`
+
+  * This generates: `experiment_summary.csv`: a log of execution statistics (mining time, memory, support, etc.)
+* To generate comparative plots: `Python plots.py`
+
+  * This creates visualizations in the `/Plots` folder:
+
+    * Mining Time vs Support (per dataset)
+    * Peak Memory Usage across all configurations
+
+s
 
 *Folder Structure:*
 
@@ -99,3 +119,9 @@ We attempted to run the original `apriori.py` on the `chess_horizontal.dat` data
  │ └── *_.png
 
 4 directories, 51 files
+
+
+**NOTES:**
+
+* Results for extremely large output files (e.g. `mushroom_horizontal_apriori_1500_output.txt`) were excluded from Git due to size.
+* All experiments were run on a  **MacBook Air M1 with 8GB RAM** .
