@@ -78,7 +78,6 @@ We tested across three fixed minimum support thresholds: **3000, 1500, and 1000*
     * Mining Time vs Support (per dataset)
     * Peak Memory Usage across all configurations
 
-s
 
 *Folder Structure:*
 
