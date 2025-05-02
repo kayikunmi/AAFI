@@ -101,3 +101,6 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 └── Results/
 
 3 directories, 18 files
+
+
+We attempted to run the original `apriori.py` on the `chess_horizontal.dat` dataset with minimum supports of 1000 and 1500. However, due to the dataset's high density and the exponential candidate generation in Apriori, both runs failed to complete within a reasonable time frame (exceeding 8 hours on a MacBook Air M1 with 8GB RAM). This highlights a known limitation of the Apriori algorithm on dense datasets with low support thresholds.
