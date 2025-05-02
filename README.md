@@ -115,5 +115,4 @@ We attempted to run the original `apriori.py` on the `chess_horizontal.dat` data
 
     └── *.png
 
-
 4 directories, 51 files
