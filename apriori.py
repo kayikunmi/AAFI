@@ -10,8 +10,6 @@ class Apriori:
         self.minsup = minsup # minimum support threshold
         self.horizontal_db = [] # horizontal transactions: list of sets of items
         self.frequent_itemsets = [] # stores frequent itemsets and their support count
-        self.confident_rules = [] #list of association rules (A → B)
-            # TODO make the confidence rules
         self.stats = {} #stores performance metrics (runtime, memory)
 
  # Load data in horizontal format
@@ -107,29 +105,6 @@ class Apriori:
         self.stats["peak_memory_MB"] = round(tracemalloc.get_traced_memory()[1] / (1024 * 1024), 2)
         tracemalloc.stop()
 
- # Generate confident association rules from frequent itemsets
-    def generate_association_rules(self, minconf=0.6):
-        start_time = time.time()
-        itemset_dict = {
-            " ".join(sorted(itemset)): support
-            for itemset, support in self.frequent_itemsets
-        }
-
-        for itemset, support in self.frequent_itemsets:
-            if len(itemset) < 2:
-                continue #no rule possible for 1-itemsets
-            for i in range(1, len(itemset)):
-                for A in combinations(itemset, i):
-                    B = set(itemset) - set(A)
-                    A_str = " ".join(sorted(A))
-                    A_support = itemset_dict.get(A_str, 0)
-                    if A_support > 0:
-                        conf = support / A_support
-                        if conf >= minconf:
-                            self.confident_rules.append((list(A), list(B), conf)) #add rule A → B
-
-        self.stats["rule_gen_time"] = time.time() - start_time #track rule generation time
-
 # Output frequent itemsets and performance metrics
     def print_results(self, input_path):
         dataset_name = os.path.splitext(os.path.basename(input_path))[0]
@@ -140,10 +115,6 @@ class Apriori:
             f.write("== Frequent Itemsets ==\n")
             for itemset, support in self.frequent_itemsets:
                 f.write(f"{' '.join(itemset)} ({support})\n")
-
-            f.write("\n== Confident Association Rules ==\n")
-            for A, B, conf in self.confident_rules:
-                f.write(f"{' '.join(A)} => {' '.join(B)} (conf: {conf:.2f})\n")
 
             f.write("\n== Execution Statistics ==\n")
             f.write(f"Transactions: {self.estimate_num_transactions()}\n")
@@ -161,14 +132,12 @@ class Apriori:
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: python apriori.py <horizontal_data_file> <minsup> [<minconf>]")
+        print("Usage: python apriori.py <horizontal_data_file> <minsup>")
         sys.exit(1)
 
     filepath = sys.argv[1]
     minsup = int(sys.argv[2])
-    minconf = float(sys.argv[3]) if len(sys.argv) > 3 else 0.6
 
     apriori = Apriori(minsup)
     apriori.run(filepath)
-    apriori.generate_association_rules(minconf)
     apriori.print_results(filepath)
