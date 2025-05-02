@@ -58,49 +58,65 @@ Initially, the ***Datasets folder*** contains the following compressed datasets:
 
 * Results/mushroom_horizontal_apriori_1500_output.txt
 
+We attempted to run the original `apriori.py` on the `chess_horizontal.dat` dataset with minimum supports of 1000 and 1500. However, due to the dataset's high density and the exponential candidate generation in Apriori, both runs failed to complete within a reasonable time frame (exceeding 8 hours on a MacBook Air M1 with 8GB RAM). This highlights a known limitation of the Apriori algorithm on dense datasets with low support thresholds.
+
+
 *Folder Structure:*
 
 .
-
 ├── Apriori.java
-
 ├── apriori.py
-
 ├── convert.py
-
-├── eclat.py
-
-├── README.md
-
-├── Datasets/
-
-│   ├── chess.dat.gz
-
+├── Datasets
 │   ├── chess_horizontal.dat
-
 │   ├── chess_vertical.dat
-
-│   ├── connect.dat.gz
-
+│   ├── chess.dat.gz
 │   ├── connect_horizontal.dat
-
 │   ├── connect_vertical.dat
-
-│   ├── mushroom.dat.gz
-
+│   ├── connect.dat.gz
 │   ├── mushroom_horizontal.dat
-
 │   ├── mushroom_vertical.dat
-
-│   ├── retail.dat.gz
-
+│   ├── mushroom.dat.gz
 │   ├── retail_horizontal.dat
+│   ├── retail_vertical.dat
+│   ├── retail.dat.gz
+│   └── sample_vertical.dat
+├── dEclat.py
+├── eclat.py
+├── experiment_summary.csv
+├── experiments.py
+├── Plots
+│   ├── chess_mining_time.png
+│   ├── mushroom_mining_time.png
+│   ├── peak_memory_usage.png
+│   └── retail_mining_time.png
+├── plots.py
+├── README.md
+└── Results
+    ├── chess_horizontal_apriori_3000_output.txt
+    ├── chess_vertical_declat_1000_output.txt
+    ├── chess_vertical_declat_1500_output.txt
+    ├── chess_vertical_declat_3000_output.txt
+    ├── chess_vertical_eclat_1000_output.txt
+    ├── chess_vertical_eclat_1500_output.txt
+    ├── chess_vertical_eclat_3000_output.txt
+    ├── mushroom_horizontal_apriori_1000_output.txt
+    ├── mushroom_horizontal_apriori_1500_output.txt
+    ├── mushroom_horizontal_apriori_3000_output.txt
+    ├── mushroom_vertical_declat_1000_output.txt
+    ├── mushroom_vertical_declat_1500_output.txt
+    ├── mushroom_vertical_declat_3000_output.txt
+    ├── mushroom_vertical_eclat_1000_output.txt
+    ├── mushroom_vertical_eclat_1500_output.txt
+    ├── mushroom_vertical_eclat_3000_output.txt
+    ├── retail_horizontal_apriori_1000_output.txt
+    ├── retail_horizontal_apriori_1500_output.txt
+    ├── retail_horizontal_apriori_3000_output.txt
+    ├── retail_vertical_declat_1000_output.txt
+    ├── retail_vertical_declat_1500_output.txt
+    ├── retail_vertical_declat_3000_output.txt
+    ├── retail_vertical_eclat_1000_output.txt
+    ├── retail_vertical_eclat_1500_output.txt
+    └── retail_vertical_eclat_3000_output.txt
 
-│   └── retail_vertical.dat
-
-└── Results/
-
-3 directories, 18 files
-
-
-We attempted to run the original `apriori.py` on the `chess_horizontal.dat` dataset with minimum supports of 1000 and 1500. However, due to the dataset's high density and the exponential candidate generation in Apriori, both runs failed to complete within a reasonable time frame (exceeding 8 hours on a MacBook Air M1 with 8GB RAM). This highlights a known limitation of the Apriori algorithm on dense datasets with low support thresholds.
+4 directories, 51 files
