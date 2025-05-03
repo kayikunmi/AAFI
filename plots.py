@@ -5,9 +5,9 @@ import os
 
 # Load CSV
 df = pd.read_csv("experiment_summary.csv")
-df = df.dropna(subset=["mining_time"])  #remove incomplete rows
+df = df.dropna(subset=["mining_time"])  # Remove incomplete rows
 
-#colors
+# Consistent colors
 algorithm_colors = {
     "apriori": "red",
     "eclat": "green",
@@ -16,7 +16,7 @@ algorithm_colors = {
 
 os.makedirs("plots", exist_ok=True)
 
-#Mining Time vs. Support per dataset (3 plots)
+# === Plot 1: Mining Time vs. Support per Dataset ===
 for dataset in df["dataset"].unique():
     subset = df[df["dataset"] == dataset]
     plt.figure(figsize=(8, 5))
@@ -37,19 +37,30 @@ for dataset in df["dataset"].unique():
     plt.savefig(f"plots/{dataset}_mining_time.png")
     plt.close()
 
-#Peak Memory Usage (bar chart)
-plt.figure(figsize=(12, 6))
+# === Plot 2: Peak Memory Usage Grouped by Dataset ===
+# Create a label column like "retail_1000"
 df["label"] = df["dataset"] + "_" + df["support_value"].astype(str)
+
+# Sort labels grouped by dataset, then ascending support
+sorted_labels = (
+    df.sort_values(by=["dataset", "support_value"])
+    .drop_duplicates(subset=["label"])
+    ["label"]
+    .tolist()
+)
+
+plt.figure(figsize=(12, 6))
 sns.barplot(
     data=df,
     x="label",
     y="peak_memory_MB",
     hue="algorithm",
+    order=sorted_labels,
     palette=algorithm_colors
 )
 plt.xticks(rotation=45)
-plt.title("Peak Memory Usage by Dataset and Support")
-plt.xlabel("Dataset Support")
+plt.title("Peak Memory Usage by Dataset and Support (Grouped)")
+plt.xlabel("Dataset_Support")
 plt.ylabel("Memory (MB)")
 plt.tight_layout()
 plt.savefig("plots/peak_memory_usage.png")
